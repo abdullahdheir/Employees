@@ -46,19 +46,27 @@ public class MyAdapter extends BaseAdapter implements Filterable {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater layoutInflater=LayoutInflater.from(context);
-            View myView=layoutInflater.inflate(R.layout.for_adptaer,parent,false);
-            TextView emp_depart = myView.findViewById(R.id.emp_depart);
-            TextView emp_name = myView.findViewById(R.id.emp_name);
-            TextView emp_id = myView.findViewById(R.id.emp_id);
-            TextView emp_jop = myView.findViewById(R.id.emp_jop);
-            ImageView image = myView.findViewById(R.id.image);
+            View myView=null;
+            if (convertView==null) {
+                LayoutInflater layoutInflater = LayoutInflater.from(context);
+                 myView = layoutInflater.inflate(R.layout.for_adptaer, parent, false);
+                ViewHolder vh=new ViewHolder();
+                 vh.emp_depart = myView.findViewById(R.id.emp_depart);
+                vh.emp_name = myView.findViewById(R.id.emp_name);
+                vh.emp_id = myView.findViewById(R.id.emp_id);
+                vh.emp_jop = myView.findViewById(R.id.emp_jop);
+                vh.image = myView.findViewById(R.id.image);
+                myView.setTag(vh);
+            }else{
+                myView=convertView;
+            }
             Employee e=employees.get(position);
-            emp_depart.setText(e.getEmp_depart());
-            emp_name.setText(e.getEmp_name());
-            emp_id.setText("ID NO : " +e.getEmp_id());
-            emp_jop.setText(e.getEmp_jop());
-            image.setImageResource(e.getImage());
+            ViewHolder vh=(ViewHolder) myView.getTag();
+            vh.emp_depart.setText(e.getEmp_depart());
+            vh.emp_name.setText(e.getEmp_name());
+            vh.emp_id.setText("ID NO : " +e.getEmp_id());
+            vh.emp_jop.setText(e.getEmp_jop());
+            vh.image.setImageResource(e.getImage());
             return myView;
         }
 
@@ -100,4 +108,14 @@ public class MyAdapter extends BaseAdapter implements Filterable {
 
             return filter;
         }
+    class ViewHolder{
+        TextView emp_depart;
+        TextView emp_name;
+        TextView emp_id;
+        TextView emp_jop;
+        ImageView image;
+
+
+
+    }
 }
